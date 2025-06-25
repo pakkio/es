@@ -1,3 +1,5 @@
+# The Everything Search Python Wrapper provides a fast and flexible interface to search through files on your system.
+
 # Everything Search Python Wrapper
 
 [![Python Version](https://img.shields.io/badge/python-3.8.1%2B-blue.svg)](https://python.org)
@@ -32,8 +34,8 @@ Everything Search is an extremely fast file and folder search utility for Window
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd everything-search-py
+git clone https://github.com/pakkio/es.git
+cd es
 
 # Install with Poetry
 poetry install
@@ -42,13 +44,55 @@ poetry install
 poetry install --with dev
 ```
 
+### WSL/Linux Installation
+
+When developing from WSL, special setup is required for MCP server integration:
+
+1. **Install Everything Search on Windows** (required)
+   - Download and install from [voidtools.com](https://www.voidtools.com/)
+   - Ensure Everything is running and has indexed your drives
+
+2. **Setup Python environment in WSL**
+   ```bash
+   git clone https://github.com/pakkio/es.git
+   cd es
+   poetry install
+   
+   # Test basic functionality
+   python3 -c "from everything_search import EverythingSearch; es = EverythingSearch(); print('Everything Search is working!')"
+   ```
+
+3. **For MCP Server (Claude Desktop integration)**
+   ```bash
+   # Copy project to Windows-accessible location
+   mkdir -p "/mnt/c/Users/$USER/everything-search-py"
+   cp -r . "/mnt/c/Users/$USER/everything-search-py/"
+   
+   # Install MCP dependencies in Windows Python environment
+   cd "/mnt/c/Users/$USER/everything-search-py"
+   pip install mcp fastmcp
+   ```
+
+4. **Configure Claude Desktop**
+   Add to `%APPDATA%\Claude\claude_desktop_config.json`:
+   ```json
+   {
+     "mcpServers": {
+       "everything-search": {
+         "command": "python",
+         "args": ["C:\\Users\\YOUR_USERNAME\\everything-search-py\\start_mcp_server.py"]
+       }
+     }
+   }
+   ```
+
 ### Manual Installation
 
 ```bash
 # Install dependencies
-pip install -r requirements.txt  # (if you have requirements.txt)
+pip install mcp fastmcp  # For MCP server functionality
 
-# Or just copy everything_search.py to your project
+# Or just copy everything_search.py to your project (basic wrapper only)
 ```
 
 ## Quick Start
