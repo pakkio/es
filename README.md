@@ -17,13 +17,14 @@ Everything Search is an extremely fast file and folder search utility for Window
 - 🐍 **Pythonic API**: Clean, intuitive interface with type hints
 - 🧪 **Well Tested**: 72% test coverage with comprehensive test suite
 - 📦 **Poetry Managed**: Modern Python packaging and dependency management
+- 🤖 **MCP Server**: Model Context Protocol server for LLM integration
 
 ## Prerequisites
 
 - **Everything Search** installed on your system
   - Download from [voidtools.com](https://www.voidtools.com/)
   - Ensure `es.exe` (command-line interface) is available
-- **Python 3.8.1+**
+- **Python 3.10+** (required for MCP server functionality)
 
 ## Installation
 
@@ -74,6 +75,62 @@ large_files = es.search_by_size(">100MB", max_results=3)
 # Search recent files
 recent = es.search_recent(days=7, max_results=5)
 ```
+
+## MCP Server Usage
+
+This project includes a Model Context Protocol (MCP) server that allows LLM applications like Claude Desktop to use Everything Search functionality as tools.
+
+### Starting the MCP Server
+
+```bash
+# Using Poetry
+poetry run python mcp_server.py
+
+# Or using the startup script
+python start_mcp_server.py
+
+# Or using the installed script
+poetry run everything-search-mcp
+```
+
+### Available MCP Tools
+
+The MCP server exposes 8 tools that LLMs can use:
+
+1. **search_files** - Search for files with various filters
+2. **search_folders** - Search for folders only
+3. **search_by_extension** - Search files by extension (e.g., "py", "txt")
+4. **search_by_size** - Search files by size (e.g., ">100MB", "<1KB")
+5. **search_recent_files** - Find recently modified files
+6. **advanced_search** - Full control over all search parameters
+7. **get_result_count** - Count results without fetching them
+8. **get_everything_version** - Get Everything Search version
+
+### MCP Server Configuration
+
+For Claude Desktop, add this to your configuration:
+
+```json
+{
+  "mcpServers": {
+    "everything-search": {
+      "command": "python",
+      "args": ["/path/to/everything-search-py/start_mcp_server.py"]
+    }
+  }
+}
+```
+
+### Example MCP Tool Usage
+
+Once connected, you can ask Claude:
+
+- "Find all Python files larger than 1MB"
+- "Search for recent text files modified in the last 3 days"
+- "List all executable files in Program Files"
+- "Find folders containing 'temp' in their name"
+
+The LLM will automatically use the appropriate search tools and present the results in a readable format.
 
 ## Advanced Usage
 
@@ -233,6 +290,9 @@ poetry run pytest --cov
 
 # Run specific test
 poetry run pytest tests/test_everything_search.py::TestEverythingSearch::test_search_basic
+
+# Test MCP server
+poetry run python test_mcp.py
 ```
 
 ## Error Handling
@@ -262,8 +322,9 @@ except RuntimeError as e:
 
 - **Windows**: Native support with Everything Search installed
 - **WSL/Linux**: Works via Windows filesystem mounting
-- **Python**: 3.8.1+ (tested up to 3.12)
+- **Python**: 3.10+ (required for MCP server, 3.8.1+ for basic wrapper)
 - **Everything Search**: 1.1.0.30+ (may work with older versions)
+- **MCP Clients**: Compatible with Claude Desktop and other MCP-enabled applications
 
 ## Contributing
 
