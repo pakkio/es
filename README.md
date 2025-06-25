@@ -150,6 +150,19 @@ The MCP server exposes 8 tools that LLMs can use:
 7. **get_result_count** - Count results without fetching them
 8. **get_everything_version** - Get Everything Search version
 
+### Gradio UI
+
+This project also includes a Gradio UI for interacting with Everything Search in a web browser.
+
+#### Starting the Gradio UI
+
+```bash
+# Using Poetry
+poetry run everything-search-gradio
+```
+
+This will launch a local web server with a user-friendly interface for all the main search functions.
+
 ### MCP Server Configuration
 
 For Claude Desktop, add this to your configuration:
