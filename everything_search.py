@@ -15,13 +15,19 @@ class EverythingSearch:
     allowing you to search for files and folders using various filters and options.
     """
 
-    def __init__(self, es_path: str = "/mnt/c/Program Files/Everything/es.exe"):
+    def __init__(self, es_path: str = None):
         """
         Initialize the Everything Search wrapper.
 
         Args:
-            es_path: Path to the es.exe executable
+            es_path: Path to the es.exe executable. If None, auto-detects based on OS.
         """
+        if es_path is None:
+            if os.name == 'nt':  # Windows
+                es_path = "C:\\Program Files\\Everything\\es.exe"
+            else:  # WSL/Linux
+                es_path = "/mnt/c/Program Files/Everything/es.exe"
+        
         self.es_path = es_path
         if not os.path.exists(self.es_path):
             raise FileNotFoundError(
