@@ -27,6 +27,7 @@ packages = [{include = "everything_search.py"}, {include = "__init__.py"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 mcp = {extras = ["cli"], version = "^1.9.4"}
+gradio = "^5.34.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
@@ -36,10 +37,12 @@ isort = "^5.12.0"
 flake8 = "^6.0.0"
 mypy = "^1.5.0"
 pre-commit = "^3.4.0"
+Sphinx = "^5.3.0"
 
 [tool.poetry.scripts]
 everything-search = "everything_search:main"
 everything-search-mcp = "mcp_server:run_server"
+everything-search-gradio = "gradio_app:demo.launch"
 
 [build-system]
 requires = ["poetry-core"]
